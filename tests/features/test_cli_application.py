@@ -2,6 +2,7 @@ import subprocess
 import pytest
 from pytest_bdd import when, then, scenario
 
+# pylint: disable=redefined-outer-name
 
 @scenario("cli_application.feature", "Executing CLI Application Without Parameters")
 def test_run_without_params():
@@ -15,7 +16,7 @@ def kbf_without_params():
 
 @when("I Execute KBF")
 def execute_kbf(kbf_without_params):
-    pass
+    assert kbf_without_params is not None
 
 
 @then("KBF Execution Succeeds")
