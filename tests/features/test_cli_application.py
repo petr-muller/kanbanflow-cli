@@ -1,8 +1,9 @@
-import subprocess
-import pytest
-from pytest_bdd import when, then, scenario
+# pylint: disable=redefined-outer-name,missing-docstring
 
-# pylint: disable=redefined-outer-name
+import subprocess
+import pytest  # type: ignore
+from pytest_bdd import when, then, scenario  # type: ignore
+
 
 @scenario("cli_application.feature", "Executing CLI Application Without Parameters")
 def test_run_without_params():

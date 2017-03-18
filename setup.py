@@ -1,3 +1,5 @@
+# pylint: disable=missing-docstring,import-error,no-name-in-module
+
 from distutils.core import setup
 
 setup(name='kbfcli',

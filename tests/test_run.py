@@ -1,3 +1,5 @@
+# pylint: disable=missing-docstring,no-self-use,too-few-public-methods
+
 import kbfcli
 
 
