@@ -1,0 +1,1 @@
+[![Coverage Status](https://coveralls.io/repos/github/petr-muller/kanbanflow-cli/badge.svg?branch=master)](https://coveralls.io/github/petr-muller/kanbanflow-cli?branch=master) [![Build Status](https://travis-ci.org/petr-muller/kanbanflow-cli.svg?branch=master)](https://travis-ci.org/petr-muller/kanbanflow-cli)
