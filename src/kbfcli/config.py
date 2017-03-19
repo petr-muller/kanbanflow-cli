@@ -13,7 +13,7 @@ class KBFConfig(object):
         self.configparser = configparser.ConfigParser()
         self.configparser["boards"] = {}
 
-    def write(self, fileobject: io.TextIOBase):
+    def write(self, fileobject: io.TextIOBase) -> None:
         """Write a config file to a given file object"""
         self.configparser.write(fileobject)
 
