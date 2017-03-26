@@ -16,7 +16,7 @@ class KBFCLIExecution(object):
         self.command.extend(arguments)
 
     def execute(self):
-        self._popen = subprocess.Popen(self.command)
+        self._popen = subprocess.Popen(self.command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     @property
     def execution(self):
@@ -38,11 +38,22 @@ def test_run_with_config_param():
     pass
 
 
+@scenario("cli_application.feature", "Executing With Config File Parameter (bad)")
+def test_run_with_bad_config_param():
+    pass
+
+
 @given("Good Config File Exists")
-def good_config_file(tmpdir):
+def config_file(tmpdir):
     config = KBFConfig()
     config_file = tmpdir.join(".kanbanflow.ini")
     config.write(config_file)
+    return config_file
+
+@given("Bad Config File Exists", target_fixture="config_file")
+def bad_config_file(tmpdir):
+    config_file = tmpdir.join(".kanbanflow.ini")
+    config_file.write("Some Crap")
     return config_file
 
 
@@ -52,14 +63,22 @@ def execute_kbf(kbfcli_execution):
 
 
 @when("I Execute KBF With Good Config File")
-def execute_kbf_with_config(good_config_file, kbfcli_execution):
-    config_file_path = str(good_config_file)
+@when("I Execute KBF With Bad Config File")
+def execute_kbf_with_config(config_file, kbfcli_execution):
+    config_file_path = str(config_file)
     kbfcli_execution.add_arguments(["--config", config_file_path])
     kbfcli_execution.execute()
-
 
 @then("KBF Execution Succeeds")
 def execution_succeeds(kbfcli_execution):
     execution = kbfcli_execution.execution
     execution.wait()
     assert execution.returncode == 0
+
+@then("KBF Execution Fails With Bad Config File Message")
+def execution_fails_with_bad_config(kbfcli_execution):
+    execution = kbfcli_execution.execution
+    execution.wait()
+    assert execution.returncode != 0
+    _, error_output = execution.communicate()
+    assert b"Invalid config file" in error_output

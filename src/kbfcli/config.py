@@ -1,19 +1,29 @@
 """KBFCLI Configuration"""
 
-import io
 import configparser
 
-from typing import Dict
+from typing import Dict, IO
+
+
+class KBFConfigError(Exception):
+    """Errors related to KBF configuration"""
+    pass
 
 
 class KBFConfig(object):
     """Represents KBFCLI Config"""
 
-    def __init__(self):
+    def __init__(self, source: str=None) -> None:
         self.configparser = configparser.ConfigParser()
         self.configparser["boards"] = {}
 
-    def write(self, fileobject: io.TextIOBase) -> None:
+        if source:
+            try:
+                self.configparser.read(source)
+            except configparser.Error:
+                raise KBFConfigError()
+
+    def write(self, fileobject: IO[str]) -> None:
         """Write a config file to a given file object"""
         self.configparser.write(fileobject)
 
